@@ -13,7 +13,7 @@
     end
 
     fun = Fun.new
-    puts fun.go2
     puts fun.go
+    puts fun.go2
 
 
