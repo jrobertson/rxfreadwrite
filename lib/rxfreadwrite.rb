@@ -8,6 +8,55 @@ require 'rxfreader'
 module RXFReadWriteModule
   include RXFRead
 
+
+  class DirX
+
+    def self.glob(s)   RXFileReadWrite.glob(s)    end
+
+  end
+
+  def FileX.exists?(filename)
+
+    type = FileX.filetype(filename)
+
+    filex = case type
+    when :file
+      File
+    when :dfs
+      DfsFile
+    else
+      nil
+    end
+
+    return nil unless filex
+
+    filex.exists? filename
+
+  end
+
+
+  def FileX.filetype(x)
+
+    return :string if x.lines.length > 1
+
+    case x
+    when /^https?:\/\//
+      :http
+    when /^dfs:\/\//
+      :dfs
+    when /^file:\/\//
+      :file
+    else
+
+      if File.exists?(x) then
+        :file
+      else
+        :text
+      end
+
+    end
+  end
+
   def FileX.write(x, s)
     RXFReadWrite.write(x, s)
   end
@@ -20,6 +69,15 @@ end
 class RXFReadWrite < RXFReader
   using ColouredText
 
+  def self.glob(s)
+
+    if s[/^dfs:\/\//] then
+      DfsFile.glob(s)
+    else
+      Dir.glob(s)
+    end
+
+  end
   def self.write(location, s=nil)
 
     case location

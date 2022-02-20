@@ -1,7 +1,8 @@
 Gem::Specification.new do |s|
   s.name = 'rxfreadwrite'
-  s.version = '0.1.0'
-  s.summary = 'Read and write files from remote locations (using the DFS protocol) as well as local.'
+  s.version = '0.1.1'
+  s.summary = 'Read and write files from remote locations ' +
+      '(using the DFS protocol) as well as local.'
   s.authors = ['James Robertson']
   s.files = Dir['lib/rxfreadwrite.rb']
   s.add_runtime_dependency('rxfreader', '~> 0.1', '>=0.1.2')
