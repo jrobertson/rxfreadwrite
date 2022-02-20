@@ -11,7 +11,7 @@ module RXFReadWriteModule
 
   class DirX
 
-    def self.glob(s)   RXFileReadWrite.glob(s)    end
+    def self.glob(s)   RXFReadWrite.glob(s)    end
 
   end
 
