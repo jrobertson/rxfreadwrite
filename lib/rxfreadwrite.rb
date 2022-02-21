@@ -57,6 +57,10 @@ module RXFReadWriteModule
     end
   end
 
+  def FileX.touch(s, mtime: Time.now)
+    RXFReadWrite.touch(s, mtime: mtime)
+  end
+
   def FileX.write(x, s)
     RXFReadWrite.write(x, s)
   end
@@ -78,6 +82,18 @@ class RXFReadWrite < RXFReader
     end
 
   end
+
+  def self.touch(filename, mtime: Time.now)
+
+    case filename[/^\w+(?=:\/\/)/]
+    when 'dfs'
+      DfsFile.touch filename, mtime: mtime
+    else
+      FileUtils.touch filename, mtime: mtime
+    end
+
+  end
+
   def self.write(location, s=nil)
 
     case location
