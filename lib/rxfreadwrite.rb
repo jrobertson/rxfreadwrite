@@ -8,7 +8,6 @@ require 'rxfreader'
 module RXFReadWriteModule
   include RXFRead
 
-
   class DirX
 
     def self.glob(s)     RXFReadWrite.glob(s)     end
@@ -17,51 +16,8 @@ module RXFReadWriteModule
 
   end
 
-  def FileX.exists?(filename)
-
-    type = FileX.filetype(filename)
-
-    filex = case type
-    when :file
-      File
-    when :dfs
-      DfsFile
-    else
-      nil
-    end
-
-    return nil unless filex
-
-    filex.exists? filename
-
-  end
-
-
-  def FileX.filetype(x)
-
-    return :string if x.lines.length > 1
-
-    case x
-    when /^https?:\/\//
-      :http
-    when /^dfs:\/\//
-      :dfs
-    when /^file:\/\//
-      :file
-    else
-
-      if File.exists?(x) then
-        :file
-      else
-        :text
-      end
-
-    end
-  end
-
   def FileX.mkdir(s)      RXFReadWrite.mkdir(s)       end
   def FileX.mkdir_p(s)    RXFReadWrite.mkdir_p(s)     end
-
   def FileX.rm(s)         RXFReadWrite.rm(s)          end
 
   def FileX.rm_r(s, force: false)
