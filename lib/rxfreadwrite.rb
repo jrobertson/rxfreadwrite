@@ -3,6 +3,7 @@
 # file: rxfreadwrite.rb
 
 require 'rxfreader'
+require 'drb_fileclient-readwrite'
 
 
 module RXFReadWriteModule
