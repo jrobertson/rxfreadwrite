@@ -11,15 +11,17 @@ module RXFReadWriteModule
 
   class DirX
 
+    def self.chdir(s)    RXFReadWrite.chdir(s)    end
     def self.glob(s)     RXFReadWrite.glob(s)     end
     def self.mkdir(s)    RXFReadWrite.mkdir(s)    end
     def self.mkdir_p(s)  RXFReadWrite.mkdir_p(s)  end
 
   end
 
-  def FileX.mkdir(s)      RXFReadWrite.mkdir(s)       end
-  def FileX.mkdir_p(s)    RXFReadWrite.mkdir_p(s)     end
-  def FileX.rm(s)         RXFReadWrite.rm(s)          end
+  def FileX.chdir(s)      RXFReadWrite.chdir(s)   end
+  def FileX.mkdir(s)      RXFReadWrite.mkdir(s)   end
+  def FileX.mkdir_p(s)    RXFReadWrite.mkdir_p(s) end
+  def FileX.rm(s)         RXFReadWrite.rm(s)      end
 
   def FileX.rm_r(s, force: false)
     RXFReadWrite.rm_r(s, force: force)
@@ -40,6 +42,29 @@ end
 
 class RXFReadWrite < RXFReader
   using ColouredText
+
+
+  def self.chdir(x)
+
+    # We can use @fs within chdir() to flag the current file system.
+    # Allowing us to use relative paths with FileX operations instead
+    # of explicitly stating the path each time. e.g. touch 'foo.txt'
+    #
+
+    if x[/^file:\/\//] or File.exists?(File.dirname(x)) then
+
+      @fs = :local
+      FileUtils.chdir x
+
+    elsif x[/^dfs:\/\//]
+
+      host = x[/(?<=dfs:\/\/)[^\/]+/]
+      @fs = 'dfs://' + host
+      DfsFile.chdir x
+
+    end
+
+  end
 
   def self.glob(s)
 
