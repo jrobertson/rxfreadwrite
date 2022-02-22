@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'rxfreadwrite'
-  s.version = '0.2.0'
+  s.version = '0.2.1'
   s.summary = 'Read and write files from remote locations ' +
       '(using the DFS protocol) as well as local.'
   s.authors = ['James Robertson']

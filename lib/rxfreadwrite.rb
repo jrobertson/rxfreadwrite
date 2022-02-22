@@ -27,6 +27,8 @@ module RXFReadWriteModule
     RXFReadWrite.rm_r(s, force: force)
   end
 
+  def File.rm_rf(s)       RXFReadWrite.rm_rf(s)   end
+
   def FileX.touch(s, mtime: Time.now)
     RXFReadWrite.touch(s, mtime: mtime)
   end
@@ -148,6 +150,10 @@ class RXFReadWrite < RXFReader
 
     end
 
+  end
+
+  def self.rm_rf(filename)
+    rm_r(filename, force: true)
   end
 
   def self.touch(filename, mtime: Time.now)
