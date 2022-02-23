@@ -15,6 +15,7 @@ module RXFReadWriteModule
     def self.glob(s)     RXFReadWrite.glob(s)     end
     def self.mkdir(s)    RXFReadWrite.mkdir(s)    end
     def self.mkdir_p(s)  RXFReadWrite.mkdir_p(s)  end
+    def self.pwd()       RXFReadWrite.pwd()       end
 
   end
 
@@ -41,6 +42,7 @@ module RXFReadWriteModule
 
   def FileX.mkdir(s)      RXFReadWrite.mkdir(s)   end
   def FileX.mkdir_p(s)    RXFReadWrite.mkdir_p(s) end
+  def FileX.pwd()         RXFReadWrite.pwd()      end
   def FileX.rm(s)         RXFReadWrite.rm(s)      end
 
   def FileX.rm_r(s, force: false)
@@ -116,6 +118,10 @@ class RXFReadWrite < RXFReader
       FileUtils.mkdir_p x
     end
 
+  end
+
+  def self.pwd()
+    DfsFile.pwd
   end
 
   def self.rm(filename)
