@@ -19,6 +19,26 @@ module RXFReadWriteModule
   end
 
   def FileX.chdir(s)      RXFReadWrite.chdir(s)   end
+
+  def FileX.directory?(filename)
+
+    type = FileX.filetype(filename)
+
+    filex = case type
+    when :file
+      File
+    when :dfs
+      DfsFile
+    else
+      nil
+    end
+
+    return nil unless filex
+
+    filex.directory? filename
+
+  end
+
   def FileX.mkdir(s)      RXFReadWrite.mkdir(s)   end
   def FileX.mkdir_p(s)    RXFReadWrite.mkdir_p(s) end
   def FileX.rm(s)         RXFReadWrite.rm(s)      end
