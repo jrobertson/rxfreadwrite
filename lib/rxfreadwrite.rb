@@ -98,7 +98,7 @@ class RXFReadWrite < RXFReader
   end
 
   def self.exists?(filename)
-
+    puts 'inside readwrite exists?'
     type = self.filetype(filename)
 
     filex = case type
@@ -127,7 +127,15 @@ class RXFReadWrite < RXFReader
   def self.glob(s)
 
     if s[/^dfs:\/\//] then
-      DfsFile.glob(s)
+
+      basepath = s[/^(dfs:\/\/[^\/]+)/,1]
+      pos = s.length - basepath.length
+
+      DfsFile.glob(s).map do |x|
+        pos2 = x =~ /#{s[pos..-1]}/
+        basepath + x[pos2..-1]
+      end
+
     else
       Dir.glob(s)
     end
