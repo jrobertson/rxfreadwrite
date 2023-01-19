@@ -40,7 +40,8 @@ module RXFReadWriteModule
 
   end
 
-  def FileX.exists?(s)    RXFReadWrite.exists?(s) end
+  def FileX.exist?(s)    RXFReadWrite.exist?(s)   end
+  def FileX.exists?(s)    RXFReadWrite.exist?(s)  end
   def FileX.mkdir(s)      RXFReadWrite.mkdir(s)   end
   def FileX.mkdir_p(s)    RXFReadWrite.mkdir_p(s) end
   def FileX.pwd()         RXFReadWrite.pwd()      end
@@ -82,7 +83,7 @@ class RXFReadWrite < RXFReader
     # of explicitly stating the path each time. e.g. touch 'foo.txt'
     #
 
-    if x[/^file:\/\//] or File.exists?(File.dirname(x)) then
+    if x[/^file:\/\//] or File.exist?(File.dirname(x)) then
 
       @@fs = :local
       FileUtils.chdir x
@@ -97,8 +98,8 @@ class RXFReadWrite < RXFReader
 
   end
 
-  def self.exists?(filename)
-    puts 'inside readwrite exists?'
+  def self.exist?(filename)
+    #puts 'inside readwrite exists?'
     type = self.filetype(filename)
 
     filex = case type
@@ -112,8 +113,12 @@ class RXFReadWrite < RXFReader
 
     return nil unless filex
 
-    filex.exists? filename
+    filex.exist? filename
 
+  end
+  
+  def self.exists?(filename)
+    self.exist?(filename)
   end
 
   def self.filetype(x)
@@ -144,7 +149,7 @@ class RXFReadWrite < RXFReader
 
   def self.mkdir(x)
 
-    if x[/^file:\/\//] or File.exists?(File.dirname(x)) then
+    if x[/^file:\/\//] or File.exist?(File.dirname(x)) then
       FileUtils.mkdir x
     elsif x[/^dfs:\/\//]
       DfsFile.mkdir x
@@ -244,7 +249,7 @@ class RXFReadWrite < RXFReader
 
     else
 
-      if DfsFile.exists?(File.dirname(location)) then
+      if DfsFile.exist?(File.dirname(location)) then
         DfsFile.write location, s
       else
         File.write(location, s)
